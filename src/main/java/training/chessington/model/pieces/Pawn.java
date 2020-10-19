@@ -1,5 +1,6 @@
 package training.chessington.model.pieces;
 
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 import training.chessington.model.Board;
 import training.chessington.model.Coordinates;
 import training.chessington.model.Move;
@@ -15,6 +16,13 @@ public class Pawn extends AbstractPiece {
 
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
-        return new ArrayList<>();
+        List<Move> possibleMoves = new ArrayList<>(); //create list of all possible moves
+        //add all moves to the list and return
+        if(getColour() == PlayerColour.WHITE){
+            possibleMoves.add(new Move(from,from.plus(-1 ,0 )));
+        }else if (getColour() == PlayerColour.BLACK){
+            possibleMoves.add(new Move(from,from.plus(1,0)));
+        }
+        return possibleMoves;
     }
 }

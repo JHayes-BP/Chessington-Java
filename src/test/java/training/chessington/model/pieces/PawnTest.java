@@ -21,7 +21,7 @@ public class PawnTest {
 
         // Act
         List<Move> moves = pawn.getAllowedMoves(coords, board);
-
+        System.out.println(moves);
         // Assert
         assertThat(moves).contains(new Move(coords, coords.plus(-1, 0)));
     }
@@ -36,7 +36,7 @@ public class PawnTest {
 
         // Act
         List<Move> moves = pawn.getAllowedMoves(coords, board);
-
+        System.out.println(moves);
         // Assert
         assertThat(moves).contains(new Move(coords, coords.plus(1, 0)));
     }
