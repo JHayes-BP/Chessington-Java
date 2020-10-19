@@ -19,8 +19,14 @@ public class Pawn extends AbstractPiece {
         List<Move> possibleMoves = new ArrayList<>(); //create list of all possible moves
         //add all moves to the list and return
         if(getColour() == PlayerColour.WHITE){
+            if (from.getRow() == 6){
+                possibleMoves.add(new Move(from,from.plus(-2,0)));
+            }
             possibleMoves.add(new Move(from,from.plus(-1 ,0 )));
         }else if (getColour() == PlayerColour.BLACK){
+            if (from.getRow() == 1){
+                possibleMoves.add(new Move(from,from.plus(2,0)));
+            }
             possibleMoves.add(new Move(from,from.plus(1,0)));
         }
         return possibleMoves;
