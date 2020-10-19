@@ -26,16 +26,23 @@ public class Pawn extends AbstractPiece {
         }
 
         Coordinates inFront = from.plus(playerMultiplier,0);
-        if (board.get(inFront) == null){ //if anything in front of piece
+        if (moveLimits(inFront) && board.get(inFront) == null){ //if anything in front of piece or empty space, no move
             possibleMoves.add(new Move(from,inFront)); //default move
             //add extra moves from here
+
             if (from.getRow() == (int)(3.5 - 2.5 * playerMultiplier)){ //first double move
                 Coordinates newPos = from.plus(2*playerMultiplier, 0);
-                if (board.get(newPos)== null){
+                if (moveLimits(newPos) && board.get(newPos)== null){ //checks two spaces ahead
                     possibleMoves.add(new Move(from,newPos));
                 }
             }
         }
         return possibleMoves;
+    }
+    private boolean moveLimits(Coordinates a){
+        if (a.getRow() > 7 || a.getRow() < 0){
+            return false;
+        }
+        return true;
     }
 }
