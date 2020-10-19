@@ -10,24 +10,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends AbstractPiece {
+    private int playerMultiplier = 0;
+
     public Pawn(PlayerColour colour) {
         super(Piece.PieceType.PAWN, colour);
     }
-
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         List<Move> possibleMoves = new ArrayList<>(); //create list of all possible moves
         //add all moves to the list and return
-        if(getColour() == PlayerColour.WHITE){
-            if (from.getRow() == 6){
-                possibleMoves.add(new Move(from,from.plus(-2,0)));
-            }
-            possibleMoves.add(new Move(from,from.plus(-1 ,0 )));
+        if (getColour() == PlayerColour.WHITE){
+            playerMultiplier = -1;
         }else if (getColour() == PlayerColour.BLACK){
-            if (from.getRow() == 1){
-                possibleMoves.add(new Move(from,from.plus(2,0)));
+            playerMultiplier = 1;
+        }
+
+        Coordinates inFront = from.plus(playerMultiplier,0);
+        if (board.get(inFront) == null){ //if anything in front of piece
+            possibleMoves.add(new Move(from,inFront)); //default move
+            //add extra moves from here
+            if (from.getRow() == (int)(3.5 - 2.5 * playerMultiplier)){ //first double move
+                Coordinates newPos = from.plus(2*playerMultiplier, 0);
+                if (board.get(newPos)== null){
+                    possibleMoves.add(new Move(from,newPos));
+                }
             }
-            possibleMoves.add(new Move(from,from.plus(1,0)));
         }
         return possibleMoves;
     }
