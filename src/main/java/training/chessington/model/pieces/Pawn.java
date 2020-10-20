@@ -19,11 +19,8 @@ public class Pawn extends AbstractPiece {
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         List<Move> possibleMoves = new ArrayList<>(); //create list of all possible moves
         //add all moves to the list and return
-        if (getColour() == PlayerColour.WHITE){
-            playerMultiplier = -1;
-        }else if (getColour() == PlayerColour.BLACK){
-            playerMultiplier = 1;
-        }
+
+        playerMultiplier = (getColour() == PlayerColour.BLACK ? 1 : -1);
 
         Coordinates inFront = from.plus(playerMultiplier,0);
         if (moveLimits(inFront) && board.get(inFront) == null){ //if anything in front of piece or empty space, no move
