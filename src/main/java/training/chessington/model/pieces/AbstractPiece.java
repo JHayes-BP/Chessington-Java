@@ -1,5 +1,7 @@
 package training.chessington.model.pieces;
 
+import training.chessington.model.Board;
+import training.chessington.model.Coordinates;
 import training.chessington.model.PlayerColour;
 
 public abstract class AbstractPiece implements Piece {

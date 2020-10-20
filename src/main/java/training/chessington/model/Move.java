@@ -28,6 +28,22 @@ public final class Move {
                 Objects.equals(to, move.to);
     }
 
+    public String moveValidation(Board board, PlayerColour colour){
+        Coordinates destination = getTo();
+        if (moveLimits(destination) && board.get(destination) == null){
+            return "empty";
+        }else if (moveLimits(destination) && board.get(destination) != null && board.get(destination).getColour() != colour){
+            return "enemy";
+        }
+        return "blocked";
+    }
+    private boolean moveLimits(Coordinates a){
+        if (a.getRow() > 7 || a.getRow() < 0 || a.getCol() > 7  || a.getCol() < 0){
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(from, to);

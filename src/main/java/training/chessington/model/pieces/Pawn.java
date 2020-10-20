@@ -23,10 +23,10 @@ public class Pawn extends AbstractPiece {
 
         playerMultiplier = (getColour() == PlayerColour.BLACK ? 1 : -1);
 
-        Coordinates inFront = from.plus(playerMultiplier,0);
-        if (moveValidation(inFront,board).equals("empty")){ //if anything in front of piece or empty space, no move
-            possibleMoves.add(new Move(from,inFront)); //default move
 
+        Move inFront = new Move(from,from.plus(playerMultiplier,0));
+        if (inFront.moveValidation(board,getColour()).equals("empty")){ //if anything in front of piece or empty space, no move
+            possibleMoves.add(inFront); //default move
             firstMoveDoubleStep(from, board, possibleMoves); //double step first move
         }
         diagonalTake(from, board, possibleMoves); //diagonal take
@@ -35,37 +35,22 @@ public class Pawn extends AbstractPiece {
     }
 
     private void diagonalTake(Coordinates from, Board board, List<Move> possibleMoves) {
-        Coordinates leftTake = from.plus(playerMultiplier,-1);
-        if (moveValidation(leftTake, board).equals("enemy")){
-            possibleMoves.add(new Move(from,leftTake));
+        Move leftTake = new Move(from, from.plus(playerMultiplier,-1));
+        if (leftTake.moveValidation(board,getColour()).equals("enemy")){
+            possibleMoves.add(leftTake);
         }
-        Coordinates rightTake = from.plus(playerMultiplier,1);
-        if (moveValidation(rightTake, board).equals("enemy")){
-            possibleMoves.add(new Move(from,rightTake));
+        Move rightTake = new Move(from,from.plus(playerMultiplier,1));
+        if (rightTake.moveValidation(board,getColour()).equals("enemy")){
+            possibleMoves.add(rightTake);
         }
     }
 
     private void firstMoveDoubleStep(Coordinates from, Board board, List<Move> possibleMoves) {
         if (from.getRow() == (int)(3.5 - 2.5 * playerMultiplier)){ //first double move (checks row)
-            Coordinates doubleMove = from.plus(2*playerMultiplier, 0);
-            if (moveValidation(doubleMove, board).equals("empty")){ //checks two spaces ahead
-                possibleMoves.add(new Move(from,doubleMove));
+            Move doubleMove = new Move(from,from.plus(2*playerMultiplier,0));
+            if (doubleMove.moveValidation(board,getColour()).equals("empty")){ //checks two spaces ahead
+                possibleMoves.add(doubleMove);
             }
         }
-    }
-
-    private String moveValidation(Coordinates a,Board board){
-        if (moveLimits(a) && board.get(a) == null){
-            return "empty";
-        }else if (moveLimits(a) && board.get(a) != null && board.get(a).getColour() != getColour()){
-            return "enemy";
-        }
-        return "blocked";
-    }
-    private boolean moveLimits(Coordinates a){
-        if (a.getRow() > 7 || a.getRow() < 0 || a.getCol() > 7  || a.getCol() < 0){
-            return false;
-        }
-        return true;
     }
 }
